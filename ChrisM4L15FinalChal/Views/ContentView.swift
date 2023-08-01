@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    
+    @State var unit = 0
    var model = BookModel()
     
     
@@ -39,13 +39,24 @@ struct ContentView: View {
                                         .foregroundColor(.white)
                                         .shadow(color: Color(.sRGB, red: 0, green: 0, blue: 0, opacity: 0.5), radius: 5, x: -5, y:5)
                                     VStack (alignment: .leading) {
-                                        Text(item.title)
-                                            .font(.title)
-                                            .fontWeight(.bold)
-                                            .foregroundColor(Color.black)
-                                            .padding([.leading], 35)
-                                            .padding([.top])
-                                            .padding([.bottom], 1)
+                                        HStack {
+                                            Text(item.title)
+                                                .font(.title)
+                                                .fontWeight(.bold)
+                                                .foregroundColor(Color.black)
+                                                .padding([.leading], 35)
+                                                .padding([.top])
+                                                .padding([.bottom], 1)
+                                                Spacer()
+                                         //       Image(systemName: "star.fill")
+                                            
+                                                Image(systemName: "star.fill")
+                                                .opacity(item.isFavourite ? 1 : 0)
+                                                .foregroundColor(.yellow)
+                                                .font(.system(size:40))
+                                                .id(unit)
+                                               
+                                        }
                                         Text(item.author)
                                             .font(.subheadline)
                                             .fontWeight(.regular)
@@ -59,6 +70,7 @@ struct ContentView: View {
                                             .padding([.bottom, .leading, .trailing], 20)
                                     }
                                 }
+                                
                             })
                         
                         
@@ -67,6 +79,11 @@ struct ContentView: View {
                     
                     
                 }
+                .onAppear {
+                    unit = unit + 1
+                }
+               
+                
                 // .environmentObject(model)
                 
             }

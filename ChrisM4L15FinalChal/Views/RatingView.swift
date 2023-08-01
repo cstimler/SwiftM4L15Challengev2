@@ -16,13 +16,16 @@ struct RatingView: View {
   //  @EnvironmentObject var item:Book
     var title = "Amazing Words"
     var image = "cover1"
-
+    @State var labelName = "star"
+    
     
     var body: some View {
         
       //  var pass = book
         
      //   @State var selectedIndex = book.rating
+        var label = Image(systemName: labelName)
+        
         
             GeometryReader {geo in
                 VStack (alignment: .leading){
@@ -53,10 +56,28 @@ struct RatingView: View {
                         Text("Mark for Later")
                             .fontWeight(.bold)
                             .padding()
-                        Image(systemName: "star")
                         
-                            .foregroundColor(.yellow)
-                            .font(.system(size:40))
+                        Button(action: {
+                            
+                            book.isFavourite = !book.isFavourite
+                            if book.isFavourite {
+                            labelName = "star.fill"
+                            } else {
+                            labelName = "star"
+                            }
+                     let _ =  print(String(book.isFavourite))
+                        }, label: {
+                            
+                            
+                                Image(systemName: labelName)
+                                    .foregroundColor(.yellow)
+                                    .font(.system(size:40))
+                        })
+                        
+                        
+                        
+                        
+                            
                         Spacer()
                         Text("Rate " + book.title)
                             .fontWeight(.bold)
@@ -75,10 +96,15 @@ struct RatingView: View {
                     }
                     .onAppear {
                         unit = unit + 1
-                       let _ = print(String(book.rating))
+                        if book.isFavourite {
+                        labelName = "star.fill"
+                        } else {
+                        labelName = "star"
+                        }
+                     //  let _ = print(String(book.rating))
                     }
                     .onDisappear {
-                        let _ = print("on disappear: " + String(book.rating))
+                  //      let _ = print("on disappear: " + String(book.rating))
                     }
                     .position(x:geo.size.width/2, y:geo.size.height/2)
                 }
