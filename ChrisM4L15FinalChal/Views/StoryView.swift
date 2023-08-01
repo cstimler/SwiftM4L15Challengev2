@@ -9,31 +9,37 @@ import SwiftUI
 
 struct StoryView: View {
     
-    var modelArray = BookModel()
+  //  var modelArray = BookModel()
     
-    
+    @EnvironmentObject var book: Book
+   
     var body: some View {
         
-        var story = modelArray.books[2]
+        //var story = modelArray.books[2]
        
-        TabView {
-            
-            ForEach(0..<story.content.count, id: \.self) {index in
-                VStack {
-                    Text(story.content[index])
-                        .padding()
-                    Text(String(index))
+    //    NavigationView {
+            TabView {
+                
+                ForEach(0..<book.content.count, id: \.self) {index in
+                    VStack {
+                        Text(book.content[index])
+                            .padding()
+                        Text(String(index+1))
+                    }
                 }
             }
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode:.never)).indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+            
         }
-        .tabViewStyle(PageTabViewStyle(indexDisplayMode:.never)).indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
         
-        
-    }
+ //   }
 }
 
 struct StoryView_Previews: PreviewProvider {
     static var previews: some View {
-        StoryView()
+        
+        let dummy = BookModel()
+        
+        StoryView().environmentObject(BookModel().books[2])
     }
 }
